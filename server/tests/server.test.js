@@ -10,7 +10,7 @@ beforeEach((done) => {
     });
 });
 
-describe('Post /todos', () => {
+describe('POST /todos', () => {
     it('should create a new todo', (done) => {
         var text = 'Test to do text';
         request(app)
@@ -53,3 +53,5 @@ describe('Post /todos', () => {
             });
     });
 });
+
+// describe('GET /todos')
