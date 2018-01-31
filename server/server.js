@@ -1,3 +1,5 @@
+require('./config/config.js');
+
 const _ = require('lodash');
 var express = require('express');
 var bodyParser = require('body-parser'); //takes a JSON and returns an object
@@ -9,7 +11,7 @@ var {Todo} = require('./models/todo.js');
 var {User} = require('./models/user.js');
 
 var app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;// || 3000; < no longer need this because we check the process.env.NODE_ENV to determine where to run
 
 app.use(bodyParser.json()); //This makes the express application use the body parser when returning data
 
