@@ -107,6 +107,24 @@ app.patch('/todos/:id', (req, res) => {
 
 });
 
+//POST /users
+
+app.post('/users', (req, res) => {
+    var body = _.pick(req.body, ['email', 'password']);
+
+    var user = new User(body); // { email: body.email, password: body.password } // you can also send the full object
+
+    user.save().then((userRes) => {
+        return user.generateAuthToken();
+    }).then((token) => { //token comes from the then on the generateAuthToken method in user.js
+        res.header('x-auth', token).send(user);
+    }).catch((err) => {
+        res.status(400).send(err);
+    });
+});
+
+
+
 app.listen(port, () => {
     console.log(`Started on port ${port}`);
 });
