@@ -9,6 +9,7 @@ const {ObjectID} = require('mongodb');
 
 var {Todo} = require('./models/todo.js');
 var {User} = require('./models/user.js');
+var {authenticate} = require('./middleware/authenticate.js');
 
 var app = express();
 const port = process.env.PORT;// || 3000; < no longer need this because we check the process.env.NODE_ENV to determine where to run
@@ -123,6 +124,42 @@ app.post('/users', (req, res) => {
     });
 });
 
+
+//middleware to use in app.get /users/me
+// var authenticate = (req, res, next) => {
+//     var token = req.header('x-auth');
+//     User.findByToken(token).then((user) => {
+//         if (!user) {
+//             // res.status(401).send();
+//             return Promise.reject(); //Instead of repeating code this will send the request into the catch method below
+//         }
+//
+//         req.user = user;
+//         req.token = token;
+//         next(); //This must be here to ensure the code in app.get('/users/me') is called
+//
+//     }).catch((err) => {
+//         res.status(401).send();
+//     });
+// };
+//ABOVE CODE IS NOW IN server/middleware folder
+
+app.get('/users/me', authenticate, (req, res) => { //authenticate then uses the route above with the middleware
+    // var token = req.header('x-auth');
+    // User.findByToken(token).then((user) => {
+    //     if (!user) {
+    //         // res.status(401).send();
+    //         return Promise.reject(); //Instead of repeating code this will send the request into the catch method below
+    //     }
+    //
+    //     res.send(user);
+    // }).catch((err) => {
+    //     res.status(401).send();
+    // });
+
+    //Instead of all code above, we can use the authenticate middleware with the following line
+    res.send(req.user);
+});
 
 
 app.listen(port, () => {
