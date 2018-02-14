@@ -80,7 +80,6 @@ UserSchema.statics.findByToken = function (token) {
 };
 
 UserSchema.pre('save', function(next) { // using a normal function so we have access to 'this'
-    console.log('\n\nSAVE\n\n');
     var user = this;
     if (user.isModified('password')) {
         var savedPassword = user.password;
@@ -91,13 +90,6 @@ UserSchema.pre('save', function(next) { // using a normal function so we have ac
                next();
             });
         });
-
-        // bcryptjs.compare(savedPassword, hashedPassword, (err, res) => {
-        //     if (err) {
-        //
-        //     }
-        //     console.log(res);
-        // });
 
     } else {
         next();
