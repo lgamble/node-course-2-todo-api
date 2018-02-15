@@ -232,7 +232,7 @@ describe('POST /users', () => {
                     expect(user).toExist();
                     expect(user.password).toNotBe(password); //This should not be the same as the password should be hashed
                     done();
-                })
+                });
             });
     });
 

@@ -161,6 +161,20 @@ app.get('/users/me', authenticate, (req, res) => { //authenticate then uses the 
     res.send(req.user);
 });
 
+// POST /users/login {email, password}
+app.post('/users/login', (req, res) => {
+    var body = _.pick(req.body, ['email', 'password']);
+
+    User.findByCredentials(body.email, body.password).then((user) => {
+        // res.send(user);
+        return user.generateAuthToken().then((token) => { //return here so 400 will be called if there's an error
+            res.header('x-auth', token).send(user);
+        });
+    }).catch((e) => {
+        res.status(400).send();
+    });
+
+});
 
 app.listen(port, () => {
     console.log(`Started on port ${port}`);
