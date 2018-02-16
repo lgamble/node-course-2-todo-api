@@ -17,7 +17,7 @@ const port = process.env.PORT;// || 3000; < no longer need this because we check
 app.use(bodyParser.json()); //This makes the express application use the body parser when returning data
 
 app.post('/todos', (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     var todo = new Todo({
         text: req.body.text,
         completedAt: req.body.completedAt,
